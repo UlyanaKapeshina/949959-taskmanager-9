@@ -1,18 +1,18 @@
 import {
   getBoardFiltersTemplate
-} from "./components/board-filters.js";
+} from "./board-filters.js";
 import {
   getTaskFormTemplate
-} from "./components/task-form.js";
+} from "./task-form.js";
 import {
   getCardTemplate
-} from "./components/card.js";
+} from "./card.js";
 import {
   getLoadMoreButtonTemplate
-} from "./components/button.js";
+} from "./button.js";
 import {
   getTask
-} from "./data.js";
+} from "./../data.js";
 
 // Создание массива карточек
 const getCards = (count) => {
