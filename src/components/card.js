@@ -32,7 +32,7 @@ export const getCardTemplate = ({description, dueDate, tags, repeatingDays, colo
         <div class="card__dates">
           <div class="card__date-deadline">
             <p class="card__input-deadline-wrap">
-              <span class="card__date">${new Date(dueDate).toDateString()}</span>
+              <span class="card__date">${new Date(dueDate).toDateString().slice(4)}</span>
               <span class="card__time">${new Date(dueDate).toTimeString().slice(0, 5)}</span>
             </p>
           </div>
