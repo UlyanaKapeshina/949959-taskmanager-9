@@ -70,3 +70,33 @@ export const getTask = () => ({
   isFavorite: getRandomBoolean(),
   isArchive: getRandomBoolean(),
 });
+
+
+const date = Date.now();
+
+// создаем объект с расчетом количества карточек
+
+const getCount = (cards) => ({
+  all: cards.length,
+  today: cards.filter((card) => card.dueDate < date).length,
+  overdue: cards.filter((card) => card.dueDate > date).length,
+  favorites: cards.filter((card) => card.isFavorite).length,
+  repeating: cards.filter((card) => {
+    return Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day])
+  }).length,
+  tags: cards.filter((card) => card.tags).length,
+  archive: cards.filter((card) => card.isArchive).length,
+});
+
+// ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
+ export const getFilters = (names, cards) => {
+  const filters = [];
+  for (let i = 0; i < names.length; i++) {
+    const filter = {
+      title: names[i],
+      count: getCount(cards)[names[i].toLowerCase()],
+    };
+    filters.push(filter);
+  }
+  return filters;
+};
