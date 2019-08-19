@@ -14,17 +14,22 @@ import {
   getTask
 } from "./../data.js";
 
-// Создание массива карточек
-const getCards = (count) => {
-  return new Array(count).fill(``).map(getTask).map(getCardTemplate).join(``);
+export const getCards = (count) => {
+  return new Array(count).fill(``).map(getTask);
 };
+// Создание массива карточек
+const getCardsTemplate = (count) => {
+  return getCards(count).map(getCardTemplate).join(``);
+};
+
+// export const cards = getCards;
 
 // Создание всего борда с карточками и сортировкой
 export const getBoard = (count) => ` <section class="board container">
 ${getBoardFiltersTemplate()}
 <div class="board__tasks">
 ${getTaskFormTemplate()}
-${getCards(count)}
+${getCardsTemplate(count)}
 </div>
 ${getLoadMoreButtonTemplate()}
 </section>`;
