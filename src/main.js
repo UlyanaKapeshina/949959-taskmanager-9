@@ -7,10 +7,13 @@ import {
   getSearchTemplate
 } from "./components/search.js";
 import {
-  getFiltersTemplate
+  getFiltersContainer
 } from "./components/filters.js";
 import {
   getBoard
+} from "./components/board";
+import {
+  getCards
 } from "./components/board";
 
 // функция добавления компонент в разметку
@@ -23,5 +26,6 @@ const main = document.querySelector(`.main`);
 // добавление компонент в разметку
 renderComponent(main.querySelector(`.main__control`), getMenuTemplate()); // добавление меню
 renderComponent(main, getSearchTemplate()); // добавление поиска
-renderComponent(main, getFiltersTemplate()); // добавление фильтров
+renderComponent(main, getFiltersContainer(getCards(CARD_QUANTITY))); // добавление фильтров
+
 renderComponent(main, getBoard(CARD_QUANTITY)); // добавление контейнера скарточеками
