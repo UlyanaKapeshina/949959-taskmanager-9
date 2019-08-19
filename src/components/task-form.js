@@ -1,12 +1,4 @@
-export const getTaskFormTemplate = ({
-    description,
-    dueDate,
-    tags,
-    repeatingDays,
-    color,
-    isFavorite,
-    isArchive
-  }) =>
+export const getTaskFormTemplate = ({description, dueDate, tags, repeatingDays, color, isFavorite, isArchive}) =>
   `<article class="card card--edit card--${color} ${Object.keys(repeatingDays).some((day) => repeatingDays[day]) ? `card--repeat` : ``}">
 <form class="card__form" method="get">
   <div class="card__inner">

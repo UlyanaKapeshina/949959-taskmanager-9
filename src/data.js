@@ -82,7 +82,7 @@ const getCount = (cards) => ({
   overdue: cards.filter((card) => card.dueDate > date).length,
   favorites: cards.filter((card) => card.isFavorite).length,
   repeating: cards.filter((card) => {
-    return Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day])
+    return Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]);
   }).length,
   tags: cards.filter((card) => card.tags).length,
   archive: cards.filter((card) => card.isArchive).length,

@@ -19,7 +19,7 @@ const getDisabled = (count) => {
 };
 
 const getFilterTemplate = ({title, count}) =>
-`<input
+  `<input
   type="radio"
   id="filter__${title.toLowerCase()}"
   class="filter__input visually-hidden"
