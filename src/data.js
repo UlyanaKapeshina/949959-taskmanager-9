@@ -89,7 +89,7 @@ const getCount = (cards) => ({
 });
 
 // ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
- export const getFilters = (names, cards) => {
+export const getFilters = (names, cards) => {
   const filters = [];
   for (let i = 0; i < names.length; i++) {
     const filter = {
