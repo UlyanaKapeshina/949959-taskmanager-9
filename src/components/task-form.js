@@ -1,5 +1,6 @@
-export const getTaskFormTemplate = ({description, dueDate, tags, repeatingDays, color, isFavorite, isArchive}) =>
-  `<article class="card card--edit card--${color} ${Object.keys(repeatingDays).some((day) => repeatingDays[day]) ? `card--repeat` : ``}">
+import {COLORS} from "./../data.js";
+export const getTaskFormTemplate = ({description, tags, repeatingDays, dueDate, color, isFavorite, isArchive}) =>
+  `<article class="card card--edit card--${color} ${Object.values(repeatingDays).some((value) => value) ? `card--repeat` : ``}">
 <form class="card__form" method="get">
   <div class="card__inner">
     <div class="card__control">
@@ -37,14 +38,14 @@ export const getTaskFormTemplate = ({description, dueDate, tags, repeatingDays, 
             date: <span class="card__date-status">${dueDate ? `yes` : `no`}</span>
           </button>
 
-          <fieldset class="card__date-deadline">
+          <fieldset class="card__date-deadline" ${dueDate ? `` : `disabled`}>
             <label class="card__input-deadline-wrap">
               <input
                 class="card__date"
                 type="text"
                 placeholder=""
                 name="date"
-                value="${new Date(dueDate).toDateString().slice(4)}"
+                value="${ new Date(dueDate).toDateString().slice(4)}"
               />
             </label>
           </fieldset>
@@ -101,75 +102,26 @@ export const getTaskFormTemplate = ({description, dueDate, tags, repeatingDays, 
       <div class="card__colors-inner">
         <h3 class="card__colors-title">Color</h3>
         <div class="card__colors-wrap">
-          <input
-            type="radio"
-            id="color-black-4"
-            class="card__color-input card__color-input--black visually-hidden"
-            name="color"
-            value="black"
-          />
-          <label
-            for="color-black-4"
-            class="card__color card__color--black"
-            >black</label
-          >
-          <input
-            type="radio"
-            id="color-yellow-4"
-            class="card__color-input card__color-input--yellow visually-hidden"
-            name="color"
-            value="yellow"
-            checked
-          />
-          <label
-            for="color-yellow-4"
-            class="card__color card__color--yellow"
-            >yellow</label
-          >
-          <input
-            type="radio"
-            id="color-blue-4"
-            class="card__color-input card__color-input--blue visually-hidden"
-            name="color"
-            value="blue"
-          />
-          <label
-            for="color-blue-4"
-            class="card__color card__color--blue"
-            >blue</label
-          >
-          <input
-            type="radio"
-            id="color-green-4"
-            class="card__color-input card__color-input--green visually-hidden"
-            name="color"
-            value="green"
-          />
-          <label
-            for="color-green-4"
-            class="card__color card__color--green"
-            >green</label
-          >
-          <input
-            type="radio"
-            id="color-pink-4"
-            class="card__color-input card__color-input--pink visually-hidden"
-            name="color"
-            value="pink"
-          />
-          <label
-            for="color-pink-4"
-            class="card__color card__color--pink"
-            >pink</label
-          >
+        ${COLORS.map((colorChecking) =>`<input
+          type="radio"
+          id="color-${colorChecking}-4"
+          class="card__color-input card__color-input--${colorChecking} visually-hidden"
+          name="color"
+          value="${colorChecking}"
+          ${colorChecking === color ? `checked` : ``}
+        />
+        <label
+          for="color-${colorChecking}-4"
+          class="card__color card__color--${colorChecking}"
+          >black</label>`).join(``)}
         </div>
       </div>
     </div>
 
-    </div>
     <div class="card__status-btns">
       <button class="card__save" type="submit">save</button>
       <button class="card__delete" type="button">delete</button>
+    </div>
     </div>
 </form>
 </article>`;
