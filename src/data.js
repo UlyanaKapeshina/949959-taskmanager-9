@@ -90,7 +90,7 @@ const date = Date.now();
 // создаем объект с расчетом количества карточек
 
 const getCount = (cards) => {
-  let countResult = {
+  const emptyFilters = {
     all: 0,
     today: 0,
     overdue: 0,
@@ -99,23 +99,35 @@ const getCount = (cards) => {
     tags: 0,
     archive: 0,
   };
-  for (let i = 0; i < cards.length; i++) {
-    let card = cards[i];
-    countResult.all += 1;
-    countResult.today += +(card.dueDate > date);
-    countResult.overdue += +(card.dueDate && card.dueDate < date);
-    countResult.favorites += +(card.isFavorite);
-    countResult.repeating += +(Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]));
-    countResult.tags += +(card.tags.size > 0);
-    countResult.archive += +(card.isArchive);
-  }
-  return countResult;
+  let sumOfCardsValues = cards.reduce((sum, card) => {
+    sum.all += 1;
+    sum.today += +(card.dueDate > date);
+    sum.overdue += +(card.dueDate && card.dueDate < date);
+    sum.favorites += +(card.isFavorite);
+    sum.repeating += +(Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]));
+    sum.tags += +(card.tags.size > 0);
+    sum.archive += +(card.isArchive);
+    return sum;
+  }, emptyFilters);
+
+  // for (let i = 0; i < cards.length; i++) {
+  //   let card = cards[i];
+  //   sum.all += 1;
+  //   sum.today += +(card.dueDate > date);
+  //   sum.overdue += +(card.dueDate && card.dueDate < date);
+  //   sum.favorites += +(card.isFavorite);
+  //   sum.repeating += +(Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]));
+  //   sum.tags += +(card.tags.size > 0);
+  //   sum.archive += +(card.isArchive);
+  // }
+  return sumOfCardsValues;
 };
 
 
 // ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
 export const getFilters = (cards) => {
   const filters = [];
+  // const sumOfCardsValues = getCount(cards);
   const sumOfCardsValues = getCount(cards);
   const counts = FILTER_NAMES.map((name) => sumOfCardsValues[name.toLocaleLowerCase()]);
   for (let i = 0; i < FILTER_NAMES.length; i++) {
