@@ -89,17 +89,28 @@ const date = Date.now();
 
 // создаем объект с расчетом количества карточек
 
-const getCount = (cards) => ({
-  all: cards.length,
-  today: cards.filter((card) => card.dueDate < date).length,
-  overdue: cards.filter((card) => card.dueDate > date).length,
-  favorites: cards.filter((card) => card.isFavorite).length,
-  repeating: cards.filter((card) => {
-    return Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]);
-  }).length,
-  tags: cards.filter((card) => card.tags.size).length,
-  archive: cards.filter((card) => card.isArchive).length,
-});
+const getCount = (cards) => {
+  let countResult = {
+    all: 0,
+    today: 0,
+    overdue: 0,
+    favorites: 0,
+    repeating: 0,
+    tags: 0,
+    archive: 0,
+  };
+  for (let i = 0; i < cards.length; i++) {
+    let card = cards[i];
+    countResult.all += 1;
+    countResult.today += +(card.dueDate > date);
+    countResult.overdue += +(card.dueDate && card.dueDate < date);
+    countResult.favorites += +(card.isFavorite);
+    countResult.repeating += +(Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]));
+    countResult.tags += +(card.tags.size > 0);
+    countResult.archive += +(card.isArchive);
+  }
+  return countResult;
+};
 
 
 // ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
