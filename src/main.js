@@ -46,12 +46,10 @@ const onLoadMoreButtonClick = () => {
   SHOWN_CARDS = SHOWN_CARDS + CARD_LOAD_COUNT;
   if (SHOWN_CARDS >= CARD_COUNT) {
     loadMoreButton.classList.add(`visually-hidden`);
+    loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
   }
 };
 
 
 loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
 
-//     renderComponent(tasksBoard, getCardsTemplate(remainder));
-//     loadMoreButton.classList.add(`visually-hidden`);
-//     loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
