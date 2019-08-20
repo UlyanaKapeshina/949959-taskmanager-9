@@ -10,27 +10,19 @@ import {
 import {
   getLoadMoreButtonTemplate
 } from "./button.js";
-import {
-  getTask
-} from "./../data.js";
 
-// создание массива объектов с данными задач
-
-export const getCardsData = (count) => {
-  return new Array(count).fill(``).map(getTask);
-};
 
 // Преобразование массива с задач в разметку карточек
-export const getCardsTemplate = (count) => {
-  return getCardsData(count).slice(1).map(getCardTemplate).join(``);
+export const getCardsTemplate = (cards) => {
+  return cards.map(getCardTemplate).join(``);
 };
 
 // Создание всего борда с карточками и сортировкой
-export const getBoard = (count) => `<section class="board container">
+export const getBoard = (cards) => `<section class="board container">
 ${getBoardFiltersTemplate()}
 <div class="board__tasks">
-${getTaskFormTemplate(getCardsData(count)[1])}
-${getCardsTemplate(count)}
+${getTaskFormTemplate(cards[0])}
+${getCardsTemplate(cards.slice(1))}
 </div>
 ${getLoadMoreButtonTemplate()}
 </section>`;
