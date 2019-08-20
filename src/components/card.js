@@ -1,5 +1,5 @@
-export const getCardTemplate = ({description, dueDate, tags, repeatingDays, color, isFavorite, isArchive}) =>
-  ` <article class="card card--${color} ${Object.keys(repeatingDays).some((day) => repeatingDays[day]) ? `card--repeat` : ``}">
+export const getCardTemplate = ({description, tags, repeatingDays, dueDate, color, isFavorite, isArchive}) =>
+  ` <article class="card card--${color} ${Object.values(repeatingDays).some((value) => value) ? `card--repeat` : ``}">
 <div class="card__form">
   <div class="card__inner">
     <div class="card__control">
@@ -32,8 +32,8 @@ export const getCardTemplate = ({description, dueDate, tags, repeatingDays, colo
         <div class="card__dates">
           <div class="card__date-deadline">
             <p class="card__input-deadline-wrap">
-              <span class="card__date">${new Date(dueDate).toDateString().slice(4)}</span>
-              <span class="card__time">${new Date(dueDate).toTimeString().slice(0, 5)}</span>
+              <span class="card__date">${dueDate ? new Date(dueDate).toDateString().slice(4) : ``}</span>
+              <span class="card__time">${dueDate ? new Date(dueDate).toTimeString().slice(0, 5) : ``}</span>
             </p>
           </div>
         </div>
