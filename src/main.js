@@ -15,7 +15,7 @@ import {
 } from "./components/board";
 import {
   getCardsData
-} from "./components/board";
+} from "./data.js";
 import {
   getCardsTemplate
 } from "./components/board";
@@ -26,23 +26,32 @@ const renderComponent = function (container, component) {
 };
 
 const main = document.querySelector(`.main`);
+const cards = getCardsData(CARD_COUNT);
 
 // добавление компонент в разметку
 renderComponent(main.querySelector(`.main__control`), getMenuTemplate()); // добавление меню
 renderComponent(main, getSearchTemplate()); // добавление поиска
-renderComponent(main, getFiltersContainer(getCardsData(CARD_COUNT))); // добавление фильтров
-renderComponent(main, getBoard(CARD_LOAD_COUNT)); // добавление контейнера скарточеками
+renderComponent(main, getFiltersContainer(cards)); // добавление фильтров
+renderComponent(main, getBoard(cards.slice(0, CARD_LOAD_COUNT))); // добавление контейнера скарточеками
+
+
 const loadMoreButton = main.querySelector(`.load-more`);
-let remainder = CARD_COUNT - CARD_LOAD_COUNT;
+const tasksBoard = main.querySelector(`.board__tasks`);
+
+let SHOWN_CARDS = 0;
+SHOWN_CARDS = SHOWN_CARDS + CARD_LOAD_COUNT;
+
 const onLoadMoreButtonClick = () => {
-  while (remainder > CARD_LOAD_COUNT) {
-    renderComponent(main.querySelector(`.board__tasks`), getCardsTemplate(CARD_LOAD_COUNT));
-    remainder = remainder - CARD_LOAD_COUNT;
+  renderComponent(tasksBoard, getCardsTemplate(cards.slice(SHOWN_CARDS, (SHOWN_CARDS + CARD_LOAD_COUNT))));
+  SHOWN_CARDS = SHOWN_CARDS + CARD_LOAD_COUNT;
+  if (SHOWN_CARDS >= CARD_COUNT) {
+    loadMoreButton.classList.add(`visually-hidden`);
   }
-  renderComponent(main.querySelector(`.board__tasks`), getCardsTemplate(remainder));
-  loadMoreButton.classList.add(`visually-hidden`);
-  loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
-
-
 };
+
+
 loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
+
+//     renderComponent(tasksBoard, getCardsTemplate(remainder));
+//     loadMoreButton.classList.add(`visually-hidden`);
+//     loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
