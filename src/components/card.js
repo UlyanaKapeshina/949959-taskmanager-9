@@ -1,12 +1,4 @@
-export const getCardTemplate = ({
-    description,
-    tags,
-    repeatingDays,
-    dueDate,
-    color,
-    isFavorite,
-    isArchive
-  }) =>
+export const getCardTemplate = ({description, tags, repeatingDays, dueDate, color, isFavorite, isArchive}) =>
   ` <article class="card card--${color} ${Object.values(repeatingDays).some((value) => value) ? `card--repeat` : ``}">
 <div class="card__form">
   <div class="card__inner">
