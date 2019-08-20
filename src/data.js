@@ -7,7 +7,7 @@ const DESCRIPTIONS = [
   `Сделать домашку`,
   `Пройти интенсив на соточку`,
 ];
-const COLORS = [
+export const COLORS = [
   `black`,
   `yellow`,
   `blue`,
@@ -22,10 +22,19 @@ const TAGS = [
   `intensive`,
   `keks`,
 ];
+const FILTER_NAMES = [
+  `All`,
+  `Overdue`,
+  `Today`,
+  `Favorites`,
+  `Repeating`,
+  `Tags`,
+  `Archive`,
+];
 
 // случайное целое число из диапазона
 const getRandomInteger = (min, max) => {
-  let rand = min + Math.random() * (max + 1 - min);
+  const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
 
@@ -47,29 +56,33 @@ const getRandomElement = (array) => {
 // массив случайных элементов из набора
 const getRandomArray = (min, max, array) => {
   const newArray = [];
-  for (let i = 0; i < getRandomInteger(min, max); i++) {
+  const newArrayLength = getRandomInteger(min, max);
+  for (let i = 0; i < newArrayLength; i++) {
     newArray.push(getRandomElement(array));
   }
   return newArray;
 };
 
-export const getTask = () => ({
-  description: getRandomElement(DESCRIPTIONS),
-  dueDate: getRandomDate(DAYS_COUNT),
-  tags: new Set(getRandomArray(TAGS_COUNT_MIN, TAGS_COUNT_MAX, TAGS)),
-  repeatingDays: {
-    mo: false,
-    tu: getRandomBoolean(),
-    we: false,
-    th: false,
-    fr: false,
-    sa: false,
-    su: false,
-  },
-  color: getRandomElement(COLORS),
-  isFavorite: getRandomBoolean(),
-  isArchive: getRandomBoolean(),
-});
+export const getTask = () => {
+  const isRepeat = getRandomBoolean();
+  return {
+    description: getRandomElement(DESCRIPTIONS),
+    dueDate: isRepeat ? `` : getRandomDate(DAYS_COUNT),
+    tags: new Set(getRandomArray(TAGS_COUNT_MIN, TAGS_COUNT_MAX, TAGS)),
+    repeatingDays: {
+      mo: false,
+      tu: isRepeat,
+      we: false,
+      th: false,
+      fr: false,
+      sa: false,
+      su: false,
+    },
+    color: getRandomElement(COLORS),
+    isFavorite: getRandomBoolean(),
+    isArchive: getRandomBoolean(),
+  };
+};
 
 
 const date = Date.now();
@@ -84,19 +97,28 @@ const getCount = (cards) => ({
   repeating: cards.filter((card) => {
     return Object.keys(card.repeatingDays).some((day) => card.repeatingDays[day]);
   }).length,
-  tags: cards.filter((card) => card.tags).length,
+  tags: cards.filter((card) => card.tags.size).length,
   archive: cards.filter((card) => card.isArchive).length,
 });
 
+
 // ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
-export const getFilters = (names, cards) => {
+export const getFilters = (cards) => {
   const filters = [];
-  for (let i = 0; i < names.length; i++) {
+  const sumOfCardsValues = getCount(cards);
+  const counts = FILTER_NAMES.map((name) => sumOfCardsValues[name.toLocaleLowerCase()]);
+  for (let i = 0; i < FILTER_NAMES.length; i++) {
     const filter = {
-      title: names[i],
-      count: getCount(cards)[names[i].toLowerCase()],
+      title: FILTER_NAMES[i],
+      count: counts[i],
     };
     filters.push(filter);
   }
   return filters;
+};
+
+// создание массива объектов с данными задач
+
+export const getCardsData = (count) => {
+  return new Array(count).fill(``).map(getTask);
 };
