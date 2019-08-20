@@ -2,15 +2,7 @@ import {
   getFilters
 } from "./../data.js";
 
-const FILTER_NAMES = [
-  `All`,
-  `Overdue`,
-  `Today`,
-  `Favorites`,
-  `Repeating`,
-  `Tags`,
-  `Archive`,
-];
+
 const getChecked = (title) => {
   return title === `All` ? `checked` : ``;
 };
@@ -38,5 +30,5 @@ ${getFiltersTemplate(cards)}
 
 
 export const getFiltersTemplate = (cards) => {
-  return getFilters(FILTER_NAMES, cards).map(getFilterTemplate).join(``);
+  return getFilters(cards).map(getFilterTemplate).join(``);
 };
