@@ -1,4 +1,12 @@
-export const getCardTemplate = ({description, tags, repeatingDays, dueDate, color, isFavorite, isArchive}) =>
+export const getCardTemplate = ({
+    description,
+    tags,
+    repeatingDays,
+    dueDate,
+    color,
+    isFavorite,
+    isArchive
+  }) =>
   ` <article class="card card--${color} ${Object.values(repeatingDays).some((value) => value) ? `card--repeat` : ``}">
 <div class="card__form">
   <div class="card__inner">
@@ -29,24 +37,26 @@ export const getCardTemplate = ({description, tags, repeatingDays, dueDate, colo
 
     <div class="card__settings">
       <div class="card__details">
-        <div class="card__dates">
-          <div class="card__date-deadline">
-            <p class="card__input-deadline-wrap">
-              <span class="card__date">${dueDate ? new Date(dueDate).toDateString().slice(4) : ``}</span>
-              <span class="card__time">${dueDate ? new Date(dueDate).toTimeString().slice(0, 5) : ``}</span>
-            </p>
-          </div>
-        </div>
 
-        <div class="card__hashtag">
+      ${dueDate ? `<div class="card__dates">
+      <div class="card__date-deadline">
+        <p class="card__input-deadline-wrap">
+          <span class="card__date">${dueDate ? new Date(dueDate).toDateString().slice(4) : ``}</span>
+          <span class="card__time">${dueDate ? new Date(dueDate).toTimeString().slice(0, 5) : ``}</span>
+        </p>
+      </div>
+    </div>` : ``}
+
+        ${tags.size > 0 ? `<div class="card__hashtag">
         <div class="card__hashtag-list">
         ${Array.from(tags).map((tag) => `<span class="card__hashtag-inner">
-          <span class="card__hashtag-name">
-            #${tag}
-          </span>
-        </span>`).join(``)}
+        <span class="card__hashtag-name">
+          #${tag}
+        </span>
+      </span>`).join(``)}
       </div>
-        </div>
+      </div>` : ``}
+
       </div>
     </div>
   </div>
