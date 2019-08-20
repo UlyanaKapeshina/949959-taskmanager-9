@@ -86,7 +86,7 @@ export const getTaskFormTemplate = ({description, tags, repeatingDays, dueDate, 
           <button type="button" class="card__hashtag-delete">
             delete
           </button>
-        </span>`).join(``)}
+        </span>`).join(``)}</div>
 
           <label>
             <input
@@ -97,6 +97,7 @@ export const getTaskFormTemplate = ({description, tags, repeatingDays, dueDate, 
             />
           </label>
         </div>
+
       </div>
 
       <div class="card__colors-inner">
