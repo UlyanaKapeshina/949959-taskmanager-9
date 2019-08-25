@@ -44,6 +44,6 @@ export class Menu {
               <label for="control__statistic" class="control__label"
                 >STATISTICS</label
               >
-              </section>`
+              </section>`;
   }
 }

@@ -59,4 +59,4 @@ export const remove = (element) => {
   if (element) {
     element.remove();
   }
-}
+};

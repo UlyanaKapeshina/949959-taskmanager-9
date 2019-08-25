@@ -2,15 +2,15 @@ import {createElement} from "./../util.js";
 
 export class TaskEdit {
   constructor({
-      description,
-      tags,
-      repeatingDays,
-      dueDate,
-      color,
-      isFavorite,
-      isArchive
-    },
-    colors
+    description,
+    tags,
+    repeatingDays,
+    dueDate,
+    color,
+    isFavorite,
+    isArchive
+  },
+  colors
   ) {
     this._description = description;
     this._tags = tags;

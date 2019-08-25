@@ -25,7 +25,7 @@ export class Search {
       placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE"
     />
     <label class="visually-hidden" for="search__input">Search</label>
-    </section>`
+    </section>`;
   }
 }
 

@@ -35,15 +35,6 @@ const TAGS = [
   `intensive`,
   `keks`,
 ];
-const FILTER_NAMES = [
-  `All`,
-  `Overdue`,
-  `Today`,
-  `Favorites`,
-  `Repeating`,
-  `Tags`,
-  `Archive`,
-];
 
 export const getTask = () => {
   const isRepeat = getRandomBoolean();

@@ -17,7 +17,7 @@ export class Button {
     return this._element;
   }
   getTemplate() {
-    return `<button class="load-more" type="button">load more</button>`
+    return `<button class="load-more" type="button">load more</button>`;
   }
 }
 
