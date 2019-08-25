@@ -1,28 +1,30 @@
-import {
-  getBoardFiltersTemplate
-} from "./board-filters.js";
-import {
-  getTaskFormTemplate
-} from "./task-form.js";
-import {
-  getCardTemplate
-} from "./card.js";
-import {
-  getLoadMoreButtonTemplate
-} from "./button.js";
+import {createElement} from "./../util.js";
 
-
-// Преобразование массива с задач в разметку карточек
-export const getCardsTemplate = (cards) => {
-  return cards.map(getCardTemplate).join(``);
-};
-
-// Создание всего борда с карточками и сортировкой
-export const getBoard = (cards) => `<section class="board container">
-${getBoardFiltersTemplate()}
-<div class="board__tasks">
-${getTaskFormTemplate(cards[0])}
-${getCardsTemplate(cards.slice(1))}
-</div>
-${getLoadMoreButtonTemplate()}
-</section>`;
+export class Board {
+  constructor() {
+    this._element = null;
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+    return this._element;
+  }
+  getTemplate() {
+    return `<section class="board container">
+    <div class="board__filter-list">
+        <a href="#" class="board__filter">SORT BY DEFAULT</a>
+        <a href="#" class="board__filter">SORT BY DATE up</a>
+        <a href="#" class="board__filter">SORT BY DATE down</a>
+      </div>
+    <div class="board__tasks">
+    </div>
+    </section>`;
+  }
+}
