@@ -89,6 +89,15 @@ const renderTask = (taskMock, container, colors) => {
 };
 const renderButton = () => {
   const button = new Button();
+  const onLoadMoreButtonClick = () => {
+    cardsData.slice(showCards, (showCards + CARD_LOAD_COUNT)).forEach((card) => renderTask(card, tasksContainer, COLORS));
+    showCards = showCards + CARD_LOAD_COUNT;
+    if (showCards >= CARD_COUNT) {
+      button.removeElement();
+      // loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
+    }
+  };
+  button.getElement().main.querySelector(`.load-more`).addEventListener(`click`, onLoadMoreButtonClick);
   render(boardContainer, button.getElement(), Position.BEFOREEND);
 };
 
@@ -101,15 +110,7 @@ const tasksContainer = document.querySelector(`.board__tasks`);
 cardsData.slice(0, CARD_LOAD_COUNT).forEach((card) => renderTask(card, tasksContainer, COLORS));
 renderButton();
 
-const onLoadMoreButtonClick = () => {
-  cardsData.slice(showCards, (showCards + CARD_LOAD_COUNT)).forEach((card) => renderTask(card, tasksContainer, COLORS));
-  showCards = showCards + CARD_LOAD_COUNT;
-  if (showCards >= CARD_COUNT) {
-    remove(loadMoreButton);
-    loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
-  }
-};
-const loadMoreButton = main.querySelector(`.load-more`);
-loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
+// const loadMoreButton = main.querySelector(`.load-more`);
+// loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
 
 
