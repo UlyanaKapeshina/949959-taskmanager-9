@@ -72,15 +72,7 @@ const renderTask = (taskMock, container, colors) => {
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  taskEdit.getElement().querySelector(`textarea`).addEventListener(`focus`, () => {
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  });
-
-  taskEdit.getElement().querySelector(`textarea`).addEventListener(`blur`, () => {
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-  taskEdit.getElement().querySelector(`.card__save`).addEventListener(`click`, () => {
+  taskEdit.getElement().querySelector(`.card__form`).addEventListener(`submit`, () => {
     container.replaceChild(task.getElement(), taskEdit.getElement());
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
@@ -97,7 +89,7 @@ const renderButton = () => {
       // loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
     }
   };
-  button.getElement().main.querySelector(`.load-more`).addEventListener(`click`, onLoadMoreButtonClick);
+  button.getElement().addEventListener(`click`, onLoadMoreButtonClick);
   render(boardContainer, button.getElement(), Position.BEFOREEND);
 };
 
@@ -109,8 +101,3 @@ const boardContainer = document.querySelector(`.board`);
 const tasksContainer = document.querySelector(`.board__tasks`);
 cardsData.slice(0, CARD_LOAD_COUNT).forEach((card) => renderTask(card, tasksContainer, COLORS));
 renderButton();
-
-// const loadMoreButton = main.querySelector(`.load-more`);
-// loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
-
-
