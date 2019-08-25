@@ -1,55 +1,115 @@
 const CARD_COUNT = 18;
 const CARD_LOAD_COUNT = 8;
+let showCards = 0;
+showCards = showCards + CARD_LOAD_COUNT;
 
 import {
-  getMenuTemplate
+  Menu
 } from "./components/menu.js";
 import {
-  getSearchTemplate
+  Search
 } from "./components/search.js";
 import {
-  getFiltersContainer
+  Filters
 } from "./components/filters.js";
 import {
-  getBoard
+  Board
 } from "./components/board";
 import {
-  getCardsData
+  Task
+} from "./components/task";
+import {
+  TaskEdit
+} from "./components/task-edit";
+import {
+  Button
+} from "./components/button";
+import {
+  getCardsData,
+  getFiltersData,
+  COLORS
 } from "./data.js";
-import {
-  getCardsTemplate
-} from "./components/board";
 
-// функция добавления компонент в разметку
-const renderComponent = function (container, component) {
-  return container.insertAdjacentHTML(`beforeend`, component);
-};
+import {
+  render,
+  remove,
+  Position
+} from "./util.js";
 
 const main = document.querySelector(`.main`);
-const cards = getCardsData(CARD_COUNT);
+const cardsData = getCardsData(CARD_COUNT);
+const filtersData = getFiltersData(cardsData);
 
-// добавление компонент в разметку
-renderComponent(main.querySelector(`.main__control`), getMenuTemplate()); // добавление меню
-renderComponent(main, getSearchTemplate()); // добавление поиска
-renderComponent(main, getFiltersContainer(cards)); // добавление фильтров
-renderComponent(main, getBoard(cards.slice(0, CARD_LOAD_COUNT))); // добавление контейнера скарточеками
+const renderMenu = () => {
+  const menu = new Menu();
+  render(main.querySelector(`.main__control`), menu.getElement(), Position.BEFOREEND); // добавление меню
+};
+const renderSearch = () => {
+  const search = new Search();
+  render(main, search.getElement(), Position.BEFOREEND); // добавление поиска
+};
+const renderFilters = () => {
+  const filters = new Filters(filtersData);
+  render(main, filters.getElement(), Position.BEFOREEND); // добавление фильтров
+};
+const renderBoard = () => {
+  const board = new Board(filtersData);
+  render(main, board.getElement(), Position.BEFOREEND);
+};
+const renderTask = (taskMock, container, colors) => {
+  const task = new Task(taskMock);
+  const taskEdit = new TaskEdit(taskMock, colors);
 
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      container.replaceChild(task.getElement(), taskEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
 
-const loadMoreButton = main.querySelector(`.load-more`);
-const tasksBoard = main.querySelector(`.board__tasks`);
+  task.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
+    container.replaceChild(taskEdit.getElement(), task.getElement());
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
-let SHOWN_CARDS = 0;
-SHOWN_CARDS = SHOWN_CARDS + CARD_LOAD_COUNT;
+  taskEdit.getElement().querySelector(`textarea`).addEventListener(`focus`, () => {
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  taskEdit.getElement().querySelector(`textarea`).addEventListener(`blur`, () => {
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  taskEdit.getElement().querySelector(`.card__save`).addEventListener(`click`, () => {
+    container.replaceChild(task.getElement(), taskEdit.getElement());
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  render(container, task.getElement(), Position.BEFOREEND);
+};
+const renderButton = () => {
+  const button = new Button();
+  render(boardContainer, button.getElement(), Position.BEFOREEND);
+};
+
+renderMenu();
+renderSearch();
+renderFilters();
+renderBoard();
+const boardContainer = document.querySelector(`.board`);
+const tasksContainer = document.querySelector(`.board__tasks`);
+cardsData.slice(0, CARD_LOAD_COUNT).forEach((card) => renderTask(card, tasksContainer, COLORS));
+renderButton();
 
 const onLoadMoreButtonClick = () => {
-  renderComponent(tasksBoard, getCardsTemplate(cards.slice(SHOWN_CARDS, (SHOWN_CARDS + CARD_LOAD_COUNT))));
-  SHOWN_CARDS = SHOWN_CARDS + CARD_LOAD_COUNT;
-  if (SHOWN_CARDS >= CARD_COUNT) {
-    loadMoreButton.classList.add(`visually-hidden`);
+  cardsData.slice(showCards, (showCards + CARD_LOAD_COUNT)).forEach((card) => renderTask(card, tasksContainer, COLORS));
+  showCards = showCards + CARD_LOAD_COUNT;
+  if (showCards >= CARD_COUNT) {
+    remove(loadMoreButton);
     loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
   }
 };
-
-
+const loadMoreButton = main.querySelector(`.load-more`);
 loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
+
 

@@ -1,34 +1,41 @@
-import {
-  getFilters
-} from "./../data.js";
+import {createElement} from "./../util.js";
 
+export class Filters {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+    return this._element;
+  }
 
-const getChecked = (title) => {
-  return title === `All` ? `checked` : ``;
-};
-const getDisabled = (count) => {
-  return count === 0 ? `disabled` : ``;
-};
-
-const getFilterTemplate = ({title, count}) =>
-  `<input
+  getFilter({title, count}) {
+    return `<input
   type="radio"
   id="filter__${title.toLowerCase()}"
   class="filter__input visually-hidden"
   name="filter"
-  ${getChecked(title)}
-  ${getDisabled(count)}
+  ${title === `All` ? `checked` : ``}
+  ${count === 0 ? `disabled` : ``}
 />
 <label for="filter__${title.toLowerCase()}" class="filter__label">
   ${title} <span class="filter__${title.toLowerCase()}-count">${count}</span></label
 >
 `;
+  }
 
-export const getFiltersContainer = (cards) => `<section class="main__filter filter container">
-${getFiltersTemplate(cards)}
-</section>`;
-
-
-export const getFiltersTemplate = (cards) => {
-  return getFilters(cards).map(getFilterTemplate).join(``);
-};
+  getTemplate() {
+    return `<section class="main__filter filter container">
+    ${this._filters.map((filter) => this.getFilter(filter)).join(``)}
+    </section>`;
+  }
+}
