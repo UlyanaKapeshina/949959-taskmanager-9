@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class Search {
+export default class Search {
   constructor() {
     this._element = null;
   }
@@ -10,12 +10,7 @@ export class Search {
     }
     return this._element;
   }
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-    return this._element;
-  }
+
   getTemplate() {
     return `<section class="main__search search container">
     <input

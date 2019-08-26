@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class TaskEdit {
+export default class TaskEdit {
   constructor({
     description,
     tags,
@@ -15,7 +15,7 @@ export class TaskEdit {
     this._description = description;
     this._tags = tags;
     this._repeatingDays = repeatingDays;
-    this._dueDate = new Date(dueDate);
+    this._dueDate = dueDate ? new Date(dueDate) : null;
     this._color = color;
     this._isFavorite = isFavorite;
     this._isArchive = isArchive;
@@ -32,7 +32,6 @@ export class TaskEdit {
     if (this._element) {
       this._element = null;
     }
-    return this._element;
   }
 
   getTemplate() {
@@ -75,14 +74,15 @@ export class TaskEdit {
           </button>
 
           <fieldset class="card__date-deadline" ${this._dueDate ? `` : `disabled`}>
-            <label class="card__input-deadline-wrap">
-              <input
-                class="card__date"
-                type="text"
-                placeholder=""
-                name="date"
-                value="${this._dueDate.toDateString().slice(4)}"
-              />
+          ${this._dueDate ? `<label class="card__input-deadline-wrap">
+          <input
+            class="card__date"
+            type="text"
+            placeholder=""
+            name="date"
+            value="${this._dueDate.toDateString().slice(4)}"
+          />` : ``}
+
             </label>
           </fieldset>
 

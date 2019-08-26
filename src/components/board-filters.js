@@ -3,7 +3,7 @@
 //   createElement
 // } from "./../data.js";
 
-// export class BoardFilters {
+// export default class BoardFilters {
 //   constructor() {
 //     this._element = null;
 //   }
@@ -13,12 +13,12 @@
 //     }
 //     return this._element;
 //   }
-//   removeElement() {
-//     if (this._element) {
-//       this._element = null;
-//     }
-//     return this._element;
+// removeElement() {
+//   if (this._element) {
+//     this._element = null;
 //   }
+// }
+//
 //   getTemplate() {
 //     return `<div class="board__filter-list">
 //     <a href="#" class="board__filter">SORT BY DEFAULT</a>

@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class Button {
+export default class Button {
   constructor() {
     this._element = null;
   }
@@ -14,8 +14,8 @@ export class Button {
     if (this._element) {
       this._element = null;
     }
-    return this._element;
   }
+
   getTemplate() {
     return `<button class="load-more" type="button">load more</button>`;
   }

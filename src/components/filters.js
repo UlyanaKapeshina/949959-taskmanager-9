@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class Filters {
+export default class Filters {
   constructor(filters) {
     this._filters = filters;
     this._element = null;
@@ -15,7 +15,6 @@ export class Filters {
     if (this._element) {
       this._element = null;
     }
-    return this._element;
   }
 
   getFilter({title, count}) {
