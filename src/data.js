@@ -84,6 +84,10 @@ const getCount = (cards) => {
   }, emptyFilters);
   return sumOfCardsValues;
 };
+export const isActiveCards = (cards) => {
+  const sumOfCardsValues = getCount(cards);
+  return sumOfCardsValues.all && sumOfCardsValues.all !== sumOfCardsValues.archive;
+};
 
 
 // ф-я создания массива объектов с названиями фильтров и вычисленным количесвом карточек для данного фильтра
@@ -91,13 +95,13 @@ export const getFiltersData = (cards) => {
   const filters = [];
   const sumOfCardsValues = getCount(cards);
   const names = Object.keys(emptyFilters);
-  for (let i = 0; i < names.length; i++) {
+  names.map((name) => {
     const filter = {
-      title: names[i],
-      count: sumOfCardsValues[names[i]],
+      title: name,
+      count: sumOfCardsValues[name],
     };
     filters.push(filter);
-  }
+  });
   return filters;
 };
 

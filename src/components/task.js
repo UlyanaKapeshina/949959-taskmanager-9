@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class Task {
+export default class Task {
   constructor({
     description,
     tags,
@@ -29,7 +29,6 @@ export class Task {
     if (this._element) {
       this._element = null;
     }
-    return this._element;
   }
 
   getTemplate() {

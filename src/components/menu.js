@@ -1,6 +1,6 @@
 import {createElement} from "./../util.js";
 
-export class Menu {
+export default class Menu {
   constructor() {
     this._element = null;
   }
@@ -14,8 +14,8 @@ export class Menu {
     if (this._element) {
       this._element = null;
     }
-    return this._element;
   }
+
   getTemplate() {
     return `<section class="control__btn-wrap">
               <input
