@@ -86,10 +86,7 @@ const getCount = (cards) => {
 };
 export const isActiveCards = (cards) => {
   const sumOfCardsValues = getCount(cards);
-  if (sumOfCardsValues.all === 0) {
-    return null;
-  }
-  return sumOfCardsValues.all !== sumOfCardsValues.archive;
+  return sumOfCardsValues.all && sumOfCardsValues.all !== sumOfCardsValues.archive;
 };
 
 
@@ -98,13 +95,13 @@ export const getFiltersData = (cards) => {
   const filters = [];
   const sumOfCardsValues = getCount(cards);
   const names = Object.keys(emptyFilters);
-  for (const name of names) {
+  names.map((name) => {
     const filter = {
       title: name,
       count: sumOfCardsValues[name],
     };
     filters.push(filter);
-  }
+  });
   return filters;
 };
 
